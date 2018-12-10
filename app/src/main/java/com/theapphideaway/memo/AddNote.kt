@@ -1,15 +1,12 @@
 package com.theapphideaway.memo
 
-import android.app.Activity
 import android.content.ContentValues
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import com.theapphideaway.memo.R.id.edit_text_title
+import com.theapphideaway.memo.Database.DbManager
 import kotlinx.android.synthetic.main.activity_add_note.*
 
 class AddNote : AppCompatActivity() {

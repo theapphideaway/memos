@@ -4,6 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +15,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import com.theapphideaway.memo.Model.Note
+import com.theapphideaway.memo.fragments.MainFragment
+import com.theapphideaway.memo.fragments.TodoListFragment
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -20,63 +26,46 @@ class MainActivity : AppCompatActivity() {
 
     val REQUEST_CODE = 1
 
-    private var noteAdapter: NoteAdapter? = null
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var noteList: ArrayList<Note>? = null
+    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            var intent = Intent(this, AddNote::class.java)
-            startActivityForResult(intent, 1)
-        }
+        val tabLayout: TabLayout = findViewById(R.id.tab_layout)
 
-        noteList = ArrayList()
-        layoutManager = LinearLayoutManager(this)
-        noteAdapter = NoteAdapter(noteList!!, this)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
 
-        note_recycler_view.adapter = noteAdapter
-        note_recycler_view.layoutManager = layoutManager
+            }
 
-        loadQuery("%")
+            override fun onTabUnselected(tab: TabLayout.Tab) {
 
-        noteAdapter!!.notifyDataSetChanged()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
+
+        tab_layout.setupWithViewPager(view_pager)
+
+        setSupportActionBar(toolbar)
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+
+        // Set up the ViewPager with the sections adapter.
+        view_pager.adapter = mSectionsPagerAdapter
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadQuery("%")
-        noteAdapter!!.notifyDataSetChanged()
-    }
-
-
-    fun loadQuery(title:String){
-        var dbManager=DbManager(this)
-        val projections= arrayOf("Id","Title","Content")
-        val selectionArgs= arrayOf(title)
-        val cursor=dbManager.query(projections,"Title like ?",selectionArgs,"Title")
-        noteList!!.clear()
-        if(cursor.moveToFirst()){
-
-            do{
-
-
-                //try writing this with the no constructor in the notes class
-                val ID=cursor.getInt(cursor.getColumnIndex("Id"))
-                val Title=cursor.getString(cursor.getColumnIndex("Title"))
-                val Description=cursor.getString(cursor.getColumnIndex("Content"))
 
 
 
-                noteList!!.add(Note(ID,Title,Description))
 
-            }while (cursor.moveToNext())
-        }
-    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -86,18 +75,32 @@ class MainActivity : AppCompatActivity() {
 
 
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == REQUEST_CODE){
-//            if(resultCode == Activity.RESULT_OK){
-//                var title = data!!.extras.get("title")
-//                var content = data!!.extras.get("content")
-//                val note = Note()
-//                note.Title = title.toString()
-//                note.Content = content.toString()
-//                noteList!!.add(note)
-//            }
-//        }
-//    }
+    class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+
+        override fun getItem(position: Int): Fragment {
+            return when (position) {
+                0 -> {
+                    MainFragment()
+                }
+                else -> {
+                    return TodoListFragment()
+                }
+            }
+        }
+
+        override fun getCount(): Int {
+            // Show 2 total pages.
+            return 2
+        }
+
+        override fun getPageTitle(position: Int): CharSequence {
+            return when (position) {
+                0 -> "Notes"
+                else -> {
+                    return "Lists"
+                }
+            }
+        }
+    }
 
 }

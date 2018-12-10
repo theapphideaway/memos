@@ -1,4 +1,4 @@
-package com.theapphideaway.memo
+package com.theapphideaway.memo.Database
 
 import android.content.ContentValues
 import android.content.Context
