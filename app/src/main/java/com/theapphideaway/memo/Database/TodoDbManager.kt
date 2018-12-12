@@ -9,21 +9,22 @@ import android.database.sqlite.SQLiteQueryBuilder
 import android.widget.Toast
 
 class TodoDbManager {
-    val dbName = "MyLists"
-    val dbTable = "ListTable"
-    val colId = "Id"
-    val colTitle = "Title"
-    val colContent = "Content"
-    val dbVersion = 1
-    val sqlCreateTable = "CREATE TABLE IF NOT EXISTS " + dbTable + " (" + colId + " INTEGER PRIMARY KEY," +
-            colTitle + " TEXT, " + colContent + " TEXT);"
 
-    var sqliteDB: SQLiteDatabase? = null
+    val dbName = "MyLists"
+    val dbTable = "MyListsTable"
+    val colListId = "Id"
+    val colListTitle = "ListTitle"
+    val dbVersion = 1
+    val sqlCreateTable = "CREATE TABLE IF NOT EXISTS " + dbTable + " (" + colListId + " INTEGER PRIMARY KEY," +
+            colListTitle + " TEXT);"
+
+
+    var sqliteDBList: SQLiteDatabase? = null
 
 
     constructor(context: Context){
         var db = DatabaseHelperNotes(context)
-        sqliteDB = db.writableDatabase
+        sqliteDBList = db.writableDatabase
 
     }
 
@@ -46,9 +47,8 @@ class TodoDbManager {
 
     }
 
-    fun Insert(values: ContentValues):Long{
-        val ID = sqliteDB!!.insert(dbTable, "", values)
-
+    fun ListInsert(values: ContentValues):Long{
+        val ID = sqliteDBList!!.insert(dbTable, "", values)
         return ID
     }
 
@@ -56,17 +56,17 @@ class TodoDbManager {
 
         val qb= SQLiteQueryBuilder()
         qb.tables=dbTable
-        val cursor=qb.query(sqliteDB,projection,selection,selectionArgs,null,null,sortOrder)
+        val cursor=qb.query(sqliteDBList,projection,selection,selectionArgs,null,null,sortOrder)
         return cursor
 
     }
 
     fun delete(selection: String, selectionArgs: Array<String>): Int{
-        return sqliteDB!!.delete(dbTable, selection, selectionArgs)
+        return sqliteDBList!!.delete(dbTable, selection, selectionArgs)
     }
 
     fun update(values: ContentValues, selection:String, selectionArgs:Array<String>):Int{
-        return sqliteDB!!.update(dbTable, values, selection, selectionArgs)
+        return sqliteDBList!!.update(dbTable, values, selection, selectionArgs)
     }
 
 

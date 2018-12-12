@@ -63,14 +63,10 @@ class MainFragment: Fragment() {
         if(cursor.moveToFirst()){
 
             do{
-
-
                 //try writing this with the no constructor in the notes class
                 val ID=cursor.getInt(cursor.getColumnIndex("Id"))
                 val Title=cursor.getString(cursor.getColumnIndex("Title"))
                 val Description=cursor.getString(cursor.getColumnIndex("Content"))
-
-
 
                 noteList!!.add(Note(ID,Title,Description))
 
