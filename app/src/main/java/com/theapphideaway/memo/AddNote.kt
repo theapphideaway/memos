@@ -63,7 +63,7 @@ class AddNote : AppCompatActivity() {
 
         edit_text_content.addTextChangedListener(noteTextWatcher)
 
-//
+
 //        edit_text_content.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
 //            // If the event is a key-down event on the "enter" button
 //
@@ -72,14 +72,18 @@ class AddNote : AppCompatActivity() {
 //            if (keyCode == KeyEvent.KEYCODE_DEL) {
 //                deletePressed = true
 //
-//
-//
 //                //Toast.makeText(this@HelloFormStuff, edittext.getText(), Toast.LENGTH_SHORT).show()
 //                return@OnKeyListener true
 //            }
 //
 //            false
 //        })
+
+
+
+
+
+       // edit_text_content.setOnEditorActionListener(listener)
 
 
 //        edit_text_content.setOnEditorActionListener { v, actionId, event ->
@@ -119,11 +123,13 @@ class AddNote : AppCompatActivity() {
         if (event.keyCode == KeyEvent.KEYCODE_DEL) {
             if (event.action == KeyEvent.ACTION_UP) {
 
-                deletePressed = true
+
 
                 return true
             }
         }
+
+        deletePressed = true
         return super.dispatchKeyEvent(event)
     };
 
@@ -131,12 +137,14 @@ class AddNote : AppCompatActivity() {
      var noteTextWatcher: TextWatcher = object : TextWatcher {
 
          var newText = null
+
         override fun afterTextChanged(s: Editable) {
 //            if (s.toString().takeLast(1) == "\n") {
 //                println("I pressed enter")
 //                //edit_text_content.text = edit_text_content.text.insert(edit_text_content.selectionStart, "\t\u2022 ")
 //
 //            }
+            deletePressed = false
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -145,26 +153,27 @@ class AddNote : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-            //I need to figure out how to get the value of the last index
-            //So far this doesnt fully work
-            if (s[s.lastIndex] != null) {
-                if (s[s.lastIndex] == '\n' && !deletePressed) {
-                    println("I Pressed enter")
-
-                    val oldString = edit_text_content.text.toString()
-                    val newString = "$oldString• "
-                    edit_text_content.setText(newString)
-                    edit_text_content.setSelection(edit_text_content.text.length)
-
-                    //setBulletText(edit_text_content, edit_text_content.text.toString())
-                    //newText = edit_text_content.text.insert(edit_text_content.selectionStart, "\n\t\u2022 ") as Nothing?
-                    // edit_text_content.setText(edit_text_content.text.toString() + "\n\u2022")
-                    //edit_text_content.setText(edit_text_content.text.toString() + "aaa")
-
-                }
-                // edit_text_content.text = newText
+            var count = 0
+            for (index in s) {
+                count++
             }
+            if(deletePressed && start == 0)
+            {
+                deletePressed = false
+            }
+            if (!deletePressed) {
+                if (count != 0) {
+                    if (s[edit_text_content.selectionStart - 1] == '\n') {
+                        println("I Pressed enter")
+                        edit_text_content.text.insert(edit_text_content.selectionStart, "u25CF ")
+                    }
+                    deletePressed = false
+                }
+                deletePressed = false
+            }
+            deletePressed = false
         }
+
 
     }
 
