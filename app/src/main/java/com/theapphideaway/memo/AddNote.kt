@@ -161,11 +161,14 @@ class AddNote : AppCompatActivity() {
             {
                 deletePressed = false
             }
+
+           
+
             if (!deletePressed) {
-                if (count != 0) {
-                    if (s[edit_text_content.selectionStart - 1] == '\n') {
+                if (count != 0 && edit_text_content.selectionEnd > 0) {
+                    if (s[edit_text_content.selectionEnd - 1] == '\n') {
                         println("I Pressed enter")
-                        edit_text_content.text.insert(edit_text_content.selectionStart, "u25CF ")
+                        edit_text_content.text.insert(edit_text_content.selectionStart, "\u25CF ")
                     }
                     deletePressed = false
                 }
