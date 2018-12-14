@@ -212,7 +212,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
-                    android:src="@android:drawable/ic_menu_add"/>
+                    android:src="@drawable/ic_format_list_bulleted_black_24dp"/>
 
             <TextView
                     android:id="@+id/last_modification_date"
@@ -230,7 +230,7 @@
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+                    android:src="@drawable/ic_format_list_numbered_black_24dp"/>
 
         </TableRow>
 

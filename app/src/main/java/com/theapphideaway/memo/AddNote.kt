@@ -1,6 +1,7 @@
 package com.theapphideaway.memo
 
 import android.content.ContentValues
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -29,6 +30,9 @@ class AddNote : AppCompatActivity() {
 
     var id = 0
     var deletePressed = false
+    var bulletPressed = false
+    var numberedPressed = false
+    var numbersInList = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,65 +61,31 @@ class AddNote : AppCompatActivity() {
             }
         }catch (ex:Exception){}
 
-//        val text = "My text <ul><li>bullet one</li><li>bullet two</li></ul>"
-//
-//        edit_text_content.text = Html.fromHtml(text) as Editable?
-
         edit_text_content.addTextChangedListener(noteTextWatcher)
 
+        note_types_button.setOnClickListener {
+            bulletPressed = !bulletPressed
+            if(bulletPressed){
+                numberedPressed = false
+                note_types_button.setBackgroundColor(Color.LTGRAY)
+                note_actions_button.setBackgroundColor(Color.WHITE)
+            }
+            else{
+                note_types_button.setBackgroundColor(Color.WHITE)
+            }
+        }
 
-//        edit_text_content.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-//            // If the event is a key-down event on the "enter" button
-//
-//            var foo = event.action
-//
-//            if (keyCode == KeyEvent.KEYCODE_DEL) {
-//                deletePressed = true
-//
-//                //Toast.makeText(this@HelloFormStuff, edittext.getText(), Toast.LENGTH_SHORT).show()
-//                return@OnKeyListener true
-//            }
-//
-//            false
-//        })
-
-
-
-
-
-       // edit_text_content.setOnEditorActionListener(listener)
-
-
-//        edit_text_content.setOnEditorActionListener { v, actionId, event ->
-//
-//            var foo = event
-//            var foob = v
-//
-//            if (actionId == 123321|| actionId == EditorInfo.IME_NULL) {
-//                val oldString = edit_text_content.text.toString()
-//                val newString = oldString + "\n\u25CF"
-//                edit_text_content.setText(newString)
-//                edit_text_content.setSelection(edit_text_content.text.length)
-//
-//            }
-//
-//            if (actionId == EditorInfo.IME_NULL
-//                && event.action == KeyEvent.ACTION_DOWN) {
-//                //example_confirm();//match this behavior to your 'Send' (or Confirm) button
-//            }
-//
-//            if (actionId == EditorInfo.IME_NULL || event == null) {
-//                val oldString = edit_text_content.text.toString()
-//                val newString = oldString + "\n\u25CF"
-//                edit_text_content.setText(newString)
-//                edit_text_content.setSelection(edit_text_content.text.length)
-//            }
-//            else{
-//                true
-//            }
-//            false
-//        }
-
+        note_actions_button.setOnClickListener {
+            numberedPressed = !numberedPressed
+            if(numberedPressed){
+                bulletPressed = false
+                note_actions_button.setBackgroundColor(Color.LTGRAY)
+                note_types_button.setBackgroundColor(Color.WHITE)
+            }
+            else{
+                note_actions_button.setBackgroundColor(Color.WHITE)
+            }
+        }
     }
 
 
@@ -153,29 +123,49 @@ class AddNote : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-            var count = 0
-            for (index in s) {
-                count++
-            }
-            if(deletePressed && start == 0)
-            {
-                deletePressed = false
-            }
 
-           
+                var thisCount = 0
 
-            if (!deletePressed) {
-                if (count != 0 && edit_text_content.selectionEnd > 0) {
-                    if (s[edit_text_content.selectionEnd - 1] == '\n') {
-                        println("I Pressed enter")
-                        edit_text_content.text.insert(edit_text_content.selectionStart, "\u25CF ")
+                for (index in s) {
+                    thisCount++
+                }
+                if (deletePressed && start == 0) {
+                    deletePressed = false
+                }
+
+//                if(!numberedPressed){
+//                    numbersInList = 1
+//                }
+
+
+
+                if (!deletePressed) {
+                    if (count != 0 && edit_text_content.selectionEnd > 0) {
+                        if (s[edit_text_content.selectionEnd - 1] == '\n') {
+                            println("I Pressed enter")
+
+
+                            if(bulletPressed){
+                                edit_text_content.text.insert(edit_text_content.selectionStart, "\u25CF ")
+                            }
+
+                            if(!numberedPressed){
+                                numbersInList = 1
+                            }
+                            else if (numberedPressed){
+                                edit_text_content.text.insert(edit_text_content.selectionStart, "$numbersInList. ")
+                                numbersInList++
+                            }
+
+
+                        }
+                        deletePressed = false
                     }
                     deletePressed = false
                 }
                 deletePressed = false
             }
-            deletePressed = false
-        }
+
 
 
     }
