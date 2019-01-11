@@ -17,7 +17,7 @@
                 android:paddingTop="8dp"
                 android:paddingStart="12dp"
                 android:id="@+id/edit_text_title"
-                android:inputType="textCapSentences"
+                android:inputType="textCapWords"
                 android:hint="Title"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -59,130 +59,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <HorizontalScrollView
-                android:id="@+id/color_scroll_view"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:scrollbars="none"
-                android:fillViewport="true" >
-
-            <LinearLayout
-                    android:id="@+id/color_picker_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:gravity="center" >
-
-                <RadioGroup
-                        android:id="@+id/color_picker_radio_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        tools:ignore="UselessParent">
-
-                    <RadioButton
-                            android:id="@+id/default_color_checkbox"
-                            android:layout_marginStart="10dp"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="true"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/red_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/orange_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/yellow_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/green_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/cyan_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/light_blue_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/dark_blue_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/purple_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/pink_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/brown_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="12dp"
-                            android:button="@null" />
-
-                    <RadioButton
-                            android:id="@+id/grey_color_checkbox"
-                            android:layout_width="35dp"
-                            android:layout_height="match_parent"
-                            android:checked="false"
-                            android:layout_marginEnd="10dp"
-                            android:button="@null" />
-
-                </RadioGroup>
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
 
     </LinearLayout>
 
@@ -215,7 +91,7 @@
                     android:src="@drawable/ic_format_list_bulleted_black_24dp"/>
 
             <TextView
-                    android:id="@+id/last_modification_date"
+                    android:id="@+id/bottom_title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAlignment="center"

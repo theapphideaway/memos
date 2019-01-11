@@ -109,11 +109,6 @@ class AddNote : AppCompatActivity() {
          var newText = null
 
         override fun afterTextChanged(s: Editable) {
-//            if (s.toString().takeLast(1) == "\n") {
-//                println("I pressed enter")
-//                //edit_text_content.text = edit_text_content.text.insert(edit_text_content.selectionStart, "\t\u2022 ")
-//
-//            }
             deletePressed = false
         }
 
@@ -235,29 +230,34 @@ class AddNote : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
 
-        var dbManager = DbManager(this)
+        if (edit_text_title.text.toString() != "" && edit_text_content.text.toString() != "") {
 
-        var values = ContentValues()
-        values.put("Title", edit_text_title.text.toString())
-        values.put("Content", edit_text_content.text.toString())
+            var dbManager = DbManager(this)
 
-        if (id == 0) {
-            val ID = dbManager.Insert(values)
-            if (ID > 0) {
-                Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+            var values = ContentValues()
+            values.put("Title", edit_text_title.text.toString())
+            values.put("Content", edit_text_content.text.toString())
+
+            if (id == 0) {
+                val ID = dbManager.Insert(values)
+                if (ID > 0) {
+                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                var selectionArgs = arrayOf(id.toString())
+                val Id = dbManager.update(values, "Id=?", selectionArgs)
+                if (Id > 0) {
+                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                }
             }
-        } else {
-            var selectionArgs = arrayOf(id.toString())
-            val Id = dbManager.update(values, "Id=?", selectionArgs)
-            if (Id > 0) {
-                Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
-            }
+
+        } else{
+            Toast.makeText(this, "Didn't save note with empty Title and/or Content", Toast.LENGTH_LONG).show()
         }
-
         finish()
     }
 

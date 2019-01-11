@@ -14,9 +14,10 @@ class TodoDbManager {
     val dbTable = "MyListsTable"
     val colListId = "Id"
     val colListTitle = "ListTitle"
+    val colIsChecked = "IsChecked"
     val dbVersion = 1
     val sqlCreateTable = "CREATE TABLE IF NOT EXISTS " + dbTable + " (" + colListId + " INTEGER PRIMARY KEY," +
-            colListTitle + " TEXT);"
+            colListTitle + " TEXT," + colIsChecked + " INTEGER);"
 
 
     var sqliteDBList: SQLiteDatabase? = null
@@ -60,6 +61,8 @@ class TodoDbManager {
         return cursor
 
     }
+
+
 
     fun delete(selection: String, selectionArgs: Array<String>): Int{
         return sqliteDBList!!.delete(dbTable, selection, selectionArgs)

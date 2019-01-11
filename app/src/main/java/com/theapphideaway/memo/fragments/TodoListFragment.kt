@@ -49,6 +49,7 @@ class TodoListFragment: Fragment() {
 
             var values = ContentValues()
             values.put("ListTitle", edit_text_todo_list.text.toString())
+            values.put("IsChecked", 0)
 
             if (index == 0) {
                 val ID = dbManager.ListInsert(values)
@@ -97,7 +98,7 @@ class TodoListFragment: Fragment() {
 
     fun loadQuery(title:String){
         var dbManager= TodoDbManager(this.context!!)
-        val projections= arrayOf("Id","ListTitle")
+        val projections= arrayOf("Id","ListTitle", "IsChecked")
         val selectionArgs= arrayOf(title)
         val cursor=dbManager.query(projections,"ListTitle like ?",selectionArgs,"ListTitle")
         todoList!!.clear()
@@ -107,8 +108,9 @@ class TodoListFragment: Fragment() {
                 //try writing this with the no constructor in the notes class
                 val ID=cursor.getInt(cursor.getColumnIndex("Id"))
                 val Title=cursor.getString(cursor.getColumnIndex("ListTitle"))
+                val IsChecked = cursor.getInt(cursor.getColumnIndex("IsChecked"))
 
-                todoList!!.add(ToDo(ID,Title))
+                todoList!!.add(ToDo(ID,Title, IsChecked))
 
             }while (cursor.moveToNext())
         }

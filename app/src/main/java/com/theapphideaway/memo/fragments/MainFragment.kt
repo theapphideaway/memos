@@ -43,6 +43,7 @@ class MainFragment: Fragment() {
 
         loadQuery("%")
 
+
         noteAdapter!!.notifyDataSetChanged()
         return rootView
 

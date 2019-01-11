@@ -43,17 +43,28 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindNote(todoList[position])
 
+        //TODO Save After is has been checked/unchecked
+
+
+        holder.itemView.check_box_todo.setOnClickListener {
+
+                holder.itemView.list_card_text.apply {
+
+                    if (paintFlags == 1281 || paintFlags ==0)paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    else paintFlags = 0
+                }
+
+        }
+
         holder.itemView.setOnClickListener {
             holder.itemView.check_box_todo.isChecked = !holder.itemView.check_box_todo.isChecked
 
-            //holder.itemView.list_card_text.font
             holder.itemView.list_card_text.apply {
 
                 if (paintFlags == 1281 || paintFlags ==0)paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 else paintFlags = 0
             }
 
-            //remoteViews.setInt(R.id.list_card_text, "setPaintFlags", Paint.STRIKE_THRU_TEXT_FLAG or Paint.ANTI_ALIAS_FLAG)
         }
 
         holder.itemView.setOnLongClickListener {
