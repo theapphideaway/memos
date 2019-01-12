@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.theapphideaway.memo.AddNote
 import com.theapphideaway.memo.Database.DbManager
+import com.theapphideaway.memo.Model.FileManager
 import com.theapphideaway.memo.Model.Note
 import com.theapphideaway.memo.NoteAdapter
 import com.theapphideaway.memo.R
@@ -21,6 +22,7 @@ class MainFragment: Fragment() {
     private var noteAdapter: NoteAdapter? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var noteList: ArrayList<Note>? = null
+    val fileManager = FileManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,15 +35,16 @@ class MainFragment: Fragment() {
         }
 
 
+        val fileManager = FileManager()
 
-        noteList = ArrayList()
+        noteList = fileManager.loadFiles()
         layoutManager = LinearLayoutManager(rootView.context)
         noteAdapter = NoteAdapter(noteList!!, rootView.context)
 
         rootView.note_recycler_view.adapter = noteAdapter
         rootView.note_recycler_view.layoutManager = layoutManager
 
-        loadQuery("%")
+        //loadQuery("%")
 
 
         noteAdapter!!.notifyDataSetChanged()
@@ -51,27 +54,27 @@ class MainFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadQuery("%")
+        noteList = fileManager.loadFiles()
         noteAdapter!!.notifyDataSetChanged()
     }
-
-    fun loadQuery(title:String){
-        var dbManager= DbManager(this.context!!)
-        val projections= arrayOf("Id","Title","Content")
-        val selectionArgs= arrayOf(title)
-        val cursor=dbManager.query(projections,"Title like ?",selectionArgs,"Title")
-        noteList!!.clear()
-        if(cursor.moveToFirst()){
-
-            do{
-                //try writing this with the no constructor in the notes class
-                val ID=cursor.getInt(cursor.getColumnIndex("Id"))
-                val Title=cursor.getString(cursor.getColumnIndex("Title"))
-                val Description=cursor.getString(cursor.getColumnIndex("Content"))
-
-                noteList!!.add(Note(ID,Title,Description))
-
-            }while (cursor.moveToNext())
-        }
-    }
+//
+//    fun loadQuery(title:String){
+//        var dbManager= DbManager(this.context!!)
+//        val projections= arrayOf("Id","Title","Content")
+//        val selectionArgs= arrayOf(title)
+//        val cursor=dbManager.query(projections,"Title like ?",selectionArgs,"Title")
+//        noteList!!.clear()
+//        if(cursor.moveToFirst()){
+//
+//            do{
+//                //try writing this with the no constructor in the notes class
+//                val ID=cursor.getInt(cursor.getColumnIndex("Id"))
+//                val Title=cursor.getString(cursor.getColumnIndex("Title"))
+//                val Description=cursor.getString(cursor.getColumnIndex("Content"))
+//
+//                noteList!!.add(Note(ID,Title,Description))
+//
+//            }while (cursor.moveToNext())
+//        }
+//    }
 }

@@ -25,7 +25,7 @@ class NoteAdapter(private val noteList: ArrayList<Note>, private val context: Co
 
     fun goToDetails(note: Note){
         var intent = Intent(context, AddNote::class.java)
-        intent.putExtra("Id", note.Id)
+        //intent.putExtra("Id", )
         intent.putExtra("Title", note.Title)
         intent.putExtra("Content", note.Content)
         startActivity(context, intent, null)
@@ -50,8 +50,8 @@ class NoteAdapter(private val noteList: ArrayList<Note>, private val context: Co
             builder.setPositiveButton("YES"){dialog, which ->
 
                 var dbManager = DbManager(this.context!!)
-                val selectionArgs= arrayOf(noteList[position].Id.toString())
-                dbManager.delete("Id=?", selectionArgs )
+               // val selectionArgs= arrayOf(noteList[position].Id.toString())
+                //dbManager.delete("Id=?", selectionArgs )
                 noteList.removeAt(position)
                 notifyItemRemoved(position)
                 true

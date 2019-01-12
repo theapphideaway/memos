@@ -22,8 +22,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.support.annotation.NonNull
-
-
+import com.theapphideaway.memo.Model.FileManager
 
 
 class AddNote : AppCompatActivity() {
@@ -55,10 +54,10 @@ class AddNote : AppCompatActivity() {
         try{
             var bundle:Bundle=intent.extras
             id=bundle.getInt("Id",0)
-            if(id!=0) {
+            //if(id!=0) {
                 edit_text_title.setText(bundle.getString("Title") )
                 edit_text_content.setText(bundle.getString("Content") )
-            }
+            //}
         }catch (ex:Exception){}
 
         edit_text_content.addTextChangedListener(noteTextWatcher)
@@ -86,6 +85,13 @@ class AddNote : AppCompatActivity() {
                 note_actions_button.setBackgroundColor(Color.WHITE)
             }
         }
+
+
+
+
+
+
+
     }
 
 
@@ -232,28 +238,32 @@ class AddNote : AppCompatActivity() {
 
         if (edit_text_title.text.toString() != "" && edit_text_content.text.toString() != "") {
 
-            var dbManager = DbManager(this)
+//            var dbManager = DbManager(this)
+//
+//            var values = ContentValues()
+//            values.put("Title", edit_text_title.text.toString())
+//            values.put("Content", edit_text_content.text.toString())
+//
+//            if (id == 0) {
+//                val ID = dbManager.Insert(values)
+//                if (ID > 0) {
+//                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+//                }
+//            } else {
+//                var selectionArgs = arrayOf(id.toString())
+//                val Id = dbManager.update(values, "Id=?", selectionArgs)
+//                if (Id > 0) {
+//                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+//                }
+//            }
 
-            var values = ContentValues()
-            values.put("Title", edit_text_title.text.toString())
-            values.put("Content", edit_text_content.text.toString())
 
-            if (id == 0) {
-                val ID = dbManager.Insert(values)
-                if (ID > 0) {
-                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                var selectionArgs = arrayOf(id.toString())
-                val Id = dbManager.update(values, "Id=?", selectionArgs)
-                if (Id > 0) {
-                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
-                }
-            }
+            val fileManager= FileManager()
+            fileManager.writeFile(edit_text_title.text.toString(), edit_text_content.text.toString())
 
         } else{
             Toast.makeText(this, "Didn't save note with empty Title and/or Content", Toast.LENGTH_LONG).show()
