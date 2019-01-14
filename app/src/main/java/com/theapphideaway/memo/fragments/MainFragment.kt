@@ -23,12 +23,14 @@ class MainFragment: Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var noteList: ArrayList<Note>? = null
     val fileManager = FileManager()
+    var root: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main, container, false)
+        root = rootView
         rootView.fab.setOnClickListener { view ->
             var intent = Intent(rootView.context, AddNote::class.java)
             startActivityForResult(intent, 1)
@@ -54,8 +56,16 @@ class MainFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+
         noteList = fileManager.loadFiles()
-        noteAdapter!!.notifyDataSetChanged()
+
+        layoutManager = LinearLayoutManager(root!!.context)
+        noteAdapter = NoteAdapter(noteList!!, root!!.context)
+
+        root!!.note_recycler_view.adapter = noteAdapter
+        root!!.note_recycler_view.layoutManager = layoutManager
+        noteAdapter!!.notifyDataSetChanged()// Not sure if this method actually works?
     }
 //
 //    fun loadQuery(title:String){

@@ -45,33 +45,33 @@ class TodoListFragment: Fragment() {
 
         rootView.fab_todo.setOnClickListener { view ->
 
-//            var dbManager = TodoDbManager(rootView.context)
-//
-//            var values = ContentValues()
-//            values.put("ListTitle", edit_text_todo_list.text.toString())
-//            values.put("IsChecked", 0)
-//
-//            if (index == 0) {
-//                val ID = dbManager.ListInsert(values)
-//                if (ID > 0) {
-//                    Toast.makeText(rootView.context, "List is added", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                edit_text_todo_list.text = null
-//
-//            } else {
-//                var selectionArgs = arrayOf(id.toString())
-//                val Id = dbManager.update(values, "Id=?", selectionArgs)
-//                if (Id > 0) {
-//                    Toast.makeText(rootView.context, "List is added", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            loadQuery("%")
+            var dbManager = TodoDbManager(rootView.context)
+
+            var values = ContentValues()
+            values.put("ListTitle", edit_text_todo_list.text.toString())
+            values.put("IsChecked", 0)
+
+            if (index == 0) {
+                val ID = dbManager.ListInsert(values)
+                if (ID > 0) {
+                    Toast.makeText(rootView.context, "List is added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
+                }
+
+                edit_text_todo_list.text = null
+
+            } else {
+                var selectionArgs = arrayOf(id.toString())
+                val Id = dbManager.update(values, "Id=?", selectionArgs)
+                if (Id > 0) {
+                    Toast.makeText(rootView.context, "List is added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            loadQuery("%")
 
 
             todoAdapter!!.notifyDataSetChanged()
@@ -83,7 +83,7 @@ class TodoListFragment: Fragment() {
         rootView.list_recycler_view.adapter = todoAdapter
         rootView.list_recycler_view.layoutManager = layoutManager
 
-        //loadQuery("%")
+        loadQuery("%")
 
         todoAdapter!!.notifyDataSetChanged()
 
@@ -96,23 +96,23 @@ class TodoListFragment: Fragment() {
         todoAdapter!!.notifyDataSetChanged()
     }
 
-//    fun loadQuery(title:String){
-//        var dbManager= TodoDbManager(this.context!!)
-//        val projections= arrayOf("Id","ListTitle", "IsChecked")
-//        val selectionArgs= arrayOf(title)
-//        val cursor=dbManager.query(projections,"ListTitle like ?",selectionArgs,"ListTitle")
-//        todoList!!.clear()
-//        if(cursor.moveToFirst()){
-//
-//            do{
-//                //try writing this with the no constructor in the notes class
-//                val ID=cursor.getInt(cursor.getColumnIndex("Id"))
-//                val Title=cursor.getString(cursor.getColumnIndex("ListTitle"))
-//                val IsChecked = cursor.getInt(cursor.getColumnIndex("IsChecked"))
-//
-//                todoList!!.add(ToDo(ID,Title, IsChecked))
-//
-//            }while (cursor.moveToNext())
-//        }
-//    }
+    fun loadQuery(title:String){
+        var dbManager= TodoDbManager(this.context!!)
+        val projections= arrayOf("Id","ListTitle", "IsChecked")
+        val selectionArgs= arrayOf(title)
+        val cursor=dbManager.query(projections,"ListTitle like ?",selectionArgs,"ListTitle")
+        todoList!!.clear()
+        if(cursor.moveToFirst()){
+
+            do{
+                //try writing this with the no constructor in the notes class
+                val ID=cursor.getInt(cursor.getColumnIndex("Id"))
+                val Title=cursor.getString(cursor.getColumnIndex("ListTitle"))
+                val IsChecked = cursor.getInt(cursor.getColumnIndex("IsChecked"))
+
+                todoList!!.add(ToDo(ID,Title, IsChecked))
+
+            }while (cursor.moveToNext())
+        }
+    }
 }

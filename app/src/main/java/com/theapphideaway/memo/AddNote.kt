@@ -32,6 +32,7 @@ class AddNote : AppCompatActivity() {
     var bulletPressed = false
     var numberedPressed = false
     var numbersInList = 1
+    var oldTitle: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,8 @@ class AddNote : AppCompatActivity() {
             //if(id!=0) {
                 edit_text_title.setText(bundle.getString("Title") )
                 edit_text_content.setText(bundle.getString("Content") )
+
+                oldTitle = edit_text_title.text.toString()
             //}
         }catch (ex:Exception){}
 
@@ -263,7 +266,7 @@ class AddNote : AppCompatActivity() {
 
 
             val fileManager= FileManager()
-            fileManager.writeFile(edit_text_title.text.toString(), edit_text_content.text.toString())
+            fileManager.writeFile(oldTitle!! ,edit_text_title.text.toString(), edit_text_content.text.toString())
 
         } else{
             Toast.makeText(this, "Didn't save note with empty Title and/or Content", Toast.LENGTH_LONG).show()
