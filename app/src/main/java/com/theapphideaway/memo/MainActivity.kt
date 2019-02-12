@@ -16,6 +16,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.theapphideaway.memo.Model.Note
 import com.theapphideaway.memo.fragments.MainFragment
 import com.theapphideaway.memo.fragments.TodoListFragment
@@ -33,8 +35,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val PERMISSION_REQUEST_CODE = 1
-
+//        val mAdView = findViewById<AdView>(R.id.ad_view)
+//        val adRequest = AdRequest.Builder().build()
+//        mAdView.loadAd(adRequest)
 
         supportActionBar?.hide()
 
