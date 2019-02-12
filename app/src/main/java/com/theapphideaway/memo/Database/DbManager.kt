@@ -53,11 +53,11 @@ class DbManager{
         return ID
     }
 
-    fun query(projection:Array<String>, selection: String, selectionArgs: Array<String>, sortOrder:String): Cursor {
+    fun query(projection:Array<String>, selection: String, selectionArgs: Array<String>): Cursor {
 
         val qb= SQLiteQueryBuilder()
         qb.tables=dbTable
-        val cursor=qb.query(sqliteDB,projection,selection,selectionArgs,null,null,sortOrder)
+        val cursor=qb.query(sqliteDB,projection,selection,selectionArgs,null,null,null)
         return cursor
 
     }

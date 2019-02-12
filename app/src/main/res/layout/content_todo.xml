@@ -9,16 +9,25 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
-    <EditText
-            android:layout_width="373dp"
-            android:layout_height="46dp"
-            android:inputType="textPersonName"
-            android:hint="Todo"
-            android:ems="10"
-            android:id="@+id/edit_text_todo_list" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+        <EditText
+                android:layout_width="300dp"
+                android:layout_height="46dp"
+                android:inputType="textPersonName"
+                android:hint="Todo"
+                android:ems="10"
+                android:id="@+id/edit_text_todo_list" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_delete"
+                android:background="@null"
+                android:id="@+id/delete_button" android:layout_alignParentEnd="true" android:layout_marginEnd="19dp"
+                android:layout_marginTop="0dp" android:layout_alignParentTop="true" android:padding="10dp"/>
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

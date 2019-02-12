@@ -1,5 +1,6 @@
 package com.theapphideaway.memo.fragments
 
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
@@ -34,19 +35,47 @@ class TodoListFragment: Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var todoList: ArrayList<ToDo>? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_todo_list, container, false)
 
+        var dbManager = TodoDbManager(rootView.context)
+
         todoList = ArrayList()
         layoutManager = LinearLayoutManager(rootView.context)
         todoAdapter = TodoAdapter(todoList!!, rootView.context)
 
+        rootView.delete_button.setOnClickListener {
+
+            val builder = AlertDialog.Builder(context)
+
+            builder.setTitle("Delete All")
+
+            builder.setMessage("Are you sure you want to delete your list?")
+
+            builder.setPositiveButton("YES"){dialog, which ->
+                dbManager.deleteAll()
+                loadQuery("%")
+                todoAdapter!!.notifyDataSetChanged()
+                true
+            }
+
+            builder.setNegativeButton("No"){dialog,which ->
+                Toast.makeText(context,"No changes made", Toast.LENGTH_SHORT).show()
+            }
+
+            val dialog: AlertDialog = builder.create()
+
+            dialog.show()
+
+        }
+
         rootView.fab_todo.setOnClickListener { view ->
 
-            var dbManager = TodoDbManager(rootView.context)
+
 
 
             var values = ContentValues()
@@ -105,7 +134,7 @@ class TodoListFragment: Fragment() {
         var dbManager= TodoDbManager(this.context!!)
         val projections= arrayOf("Id","ListTitle", "IsChecked")
         val selectionArgs= arrayOf(title)
-        val cursor=dbManager.query(projections,"ListTitle like ?",selectionArgs,"ListTitle")
+        val cursor=dbManager.query(projections,"ListTitle like ?",selectionArgs)
         todoList!!.clear()
         if(cursor.moveToFirst()){
 

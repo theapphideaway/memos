@@ -25,9 +25,6 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
-
-    val REQUEST_CODE = 1
-
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
 
@@ -37,13 +34,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val PERMISSION_REQUEST_CODE = 1
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
 
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                requestPermissions(permissions, PERMISSION_REQUEST_CODE)
-            }
-        }
+
+        supportActionBar?.hide()
 
         val tabLayout: TabLayout = findViewById(R.id.tab_layout)
 
@@ -108,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             return when (position) {
                 0 -> "Notes"
                 else -> {
-                    return "Lists"
+                    return "My To-do"
                 }
             }
         }

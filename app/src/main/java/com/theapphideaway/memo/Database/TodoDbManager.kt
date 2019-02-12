@@ -53,11 +53,11 @@ class TodoDbManager {
         return ID
     }
 
-    fun query(projection:Array<String>, selection: String, selectionArgs: Array<String>, sortOrder:String): Cursor {
+    fun query(projection:Array<String>, selection: String, selectionArgs: Array<String>): Cursor {
 
         val qb= SQLiteQueryBuilder()
         qb.tables=dbTable
-        val cursor=qb.query(sqliteDBList,projection,selection,selectionArgs,null,null,sortOrder)
+        val cursor=qb.query(sqliteDBList,projection,selection,selectionArgs,null,null,null)
         return cursor
 
     }
@@ -66,6 +66,10 @@ class TodoDbManager {
 
     fun delete(selection: String, selectionArgs: Array<String>): Int{
         return sqliteDBList!!.delete(dbTable, selection, selectionArgs)
+    }
+
+    fun deleteAll(){
+        sqliteDBList!!.delete(dbTable,null,null)
     }
 
     fun update(values: ContentValues, selection:String, selectionArgs:Array<String>):Int{

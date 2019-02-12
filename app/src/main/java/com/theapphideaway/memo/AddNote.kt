@@ -23,6 +23,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.support.annotation.NonNull
 import com.theapphideaway.memo.Model.FileManager
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class AddNote : AppCompatActivity() {
@@ -51,6 +53,15 @@ class AddNote : AppCompatActivity() {
         // print StringBuilder after insertion
         print("After insertion = ")
         println(str.toString())
+
+
+
+        val current = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val formatted = current.format(formatter)
+
+        bottom_title.text =formatted
 
         try{
             var bundle:Bundle=intent.extras

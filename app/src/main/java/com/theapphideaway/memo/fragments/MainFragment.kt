@@ -60,7 +60,7 @@ class MainFragment: Fragment() {
         var dbManager= DbManager(this.context!!)
         val projections= arrayOf("Id","Title","Content")
         val selectionArgs= arrayOf(title)
-        val cursor=dbManager.query(projections,"Title like ?",selectionArgs,"Title")
+        val cursor=dbManager.query(projections,"Title like ?",selectionArgs)
         noteList!!.clear()
         if(cursor.moveToFirst()){
 
