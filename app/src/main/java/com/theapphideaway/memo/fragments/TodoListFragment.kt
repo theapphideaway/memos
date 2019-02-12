@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.content_todo.*
 import kotlinx.android.synthetic.main.content_todo.view.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.android.synthetic.main.fragment_todo_list.view.*
+import kotlinx.android.synthetic.main.list_card.view.*
 
 class TodoListFragment: Fragment() {
 
@@ -46,6 +47,7 @@ class TodoListFragment: Fragment() {
         rootView.fab_todo.setOnClickListener { view ->
 
             var dbManager = TodoDbManager(rootView.context)
+
 
             var values = ContentValues()
             values.put("ListTitle", edit_text_todo_list.text.toString())
@@ -77,6 +79,9 @@ class TodoListFragment: Fragment() {
             todoAdapter!!.notifyDataSetChanged()
 
         }
+
+
+
 
 
 

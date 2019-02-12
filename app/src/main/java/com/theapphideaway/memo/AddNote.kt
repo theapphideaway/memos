@@ -90,11 +90,6 @@ class AddNote : AppCompatActivity() {
         }
 
 
-
-
-
-
-
     }
 
 
@@ -113,9 +108,9 @@ class AddNote : AppCompatActivity() {
     };
 
 
-     var noteTextWatcher: TextWatcher = object : TextWatcher {
+    var noteTextWatcher: TextWatcher = object : TextWatcher {
 
-         var newText = null
+        var newText = null
 
         override fun afterTextChanged(s: Editable) {
             deletePressed = false
@@ -128,14 +123,14 @@ class AddNote : AppCompatActivity() {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
 
-                var thisCount = 0
+            var thisCount = 0
 
-                for (index in s) {
-                    thisCount++
-                }
-                if (deletePressed && start == 0) {
-                    deletePressed = false
-                }
+            for (index in s) {
+                thisCount++
+            }
+            if (deletePressed && start == 0) {
+                deletePressed = false
+            }
 
 //                if(!numberedPressed){
 //                    numbersInList = 1
@@ -143,32 +138,32 @@ class AddNote : AppCompatActivity() {
 
 
 
-                if (!deletePressed) {
-                    if (count != 0 && edit_text_content.selectionEnd > 0) {
-                        if (s[edit_text_content.selectionEnd - 1] == '\n') {
-                            println("I Pressed enter")
+            if (!deletePressed) {
+                if (count != 0 && edit_text_content.selectionEnd > 0) {
+                    if (s[edit_text_content.selectionEnd - 1] == '\n') {
+                        println("I Pressed enter")
 
 
-                            if(bulletPressed){
-                                edit_text_content.text.insert(edit_text_content.selectionStart, "\u25CF ")
-                            }
-
-                            if(!numberedPressed){
-                                numbersInList = 1
-                            }
-                            else if (numberedPressed){
-                                edit_text_content.text.insert(edit_text_content.selectionStart, "$numbersInList. ")
-                                numbersInList++
-                            }
-
-
+                        if(bulletPressed){
+                            edit_text_content.text.insert(edit_text_content.selectionStart, "\u25CF ")
                         }
-                        deletePressed = false
+
+                        if(!numberedPressed){
+                            numbersInList = 1
+                        }
+                        else if (numberedPressed){
+                            edit_text_content.text.insert(edit_text_content.selectionStart, "$numbersInList. ")
+                            numbersInList++
+                        }
+
+
                     }
                     deletePressed = false
                 }
                 deletePressed = false
             }
+            deletePressed = false
+        }
 
 
 
@@ -241,32 +236,28 @@ class AddNote : AppCompatActivity() {
 
         if (edit_text_title.text.toString() != "" && edit_text_content.text.toString() != "") {
 
-//            var dbManager = DbManager(this)
-//
-//            var values = ContentValues()
-//            values.put("Title", edit_text_title.text.toString())
-//            values.put("Content", edit_text_content.text.toString())
-//
-//            if (id == 0) {
-//                val ID = dbManager.Insert(values)
-//                if (ID > 0) {
-//                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
-//                }
-//            } else {
-//                var selectionArgs = arrayOf(id.toString())
-//                val Id = dbManager.update(values, "Id=?", selectionArgs)
-//                if (Id > 0) {
-//                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
-//                }
-//            }
+            var dbManager = DbManager(this)
 
+            var values = ContentValues()
+            values.put("Title", edit_text_title.text.toString())
+            values.put("Content", edit_text_content.text.toString())
 
-            val fileManager= FileManager()
-            fileManager.writeFile(oldTitle!! ,edit_text_title.text.toString(), edit_text_content.text.toString())
+            if (id == 0) {
+                val ID = dbManager.Insert(values)
+                if (ID > 0) {
+                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                var selectionArgs = arrayOf(id.toString())
+                val Id = dbManager.update(values, "Id=?", selectionArgs)
+                if (Id > 0) {
+                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                }
+            }
 
         } else{
             Toast.makeText(this, "Didn't save note with empty Title and/or Content", Toast.LENGTH_LONG).show()
@@ -275,3 +266,5 @@ class AddNote : AppCompatActivity() {
     }
 
 }
+
+

@@ -48,17 +48,17 @@ class FileManager {
         File("/sdcard/M/").walkBottomUp().forEach {
             println(it)
 
-            if(it.toString() != "/sdcard/M") {
-                println(it)
-                val newFilename = it.name.substring(it.name.lastIndexOf("/") + 1)
-                var newTitle = File(newFilename).nameWithoutExtension
-                println(newTitle)
-                var newContent = readFileDirectlyAsText(it.toString())
-                println(newContent)
-                var note = Note(newTitle, newContent)
-
-                allNotes.add(note)
-            }
+//            if(it.toString() != "/sdcard/M") {
+//                println(it)
+//                val newFilename = it.name.substring(it.name.lastIndexOf("/") + 1)
+//                var newTitle = File(newFilename).nameWithoutExtension
+//                println(newTitle)
+//                var newContent = readFileDirectlyAsText(it.toString())
+//                println(newContent)
+//                var note = Note(newTitle, newContent)
+//
+//                allNotes.add(note)
+//            }
         }
         return allNotes
     }
