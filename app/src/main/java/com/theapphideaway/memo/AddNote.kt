@@ -1,5 +1,6 @@
 package com.theapphideaway.memo
 
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
@@ -22,6 +23,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import android.support.annotation.NonNull
+import com.theapphideaway.memo.Database.TodoDbManager
 import com.theapphideaway.memo.Model.FileManager
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -81,10 +83,10 @@ class AddNote : AppCompatActivity() {
             if(bulletPressed){
                 numberedPressed = false
                 note_types_button.setBackgroundColor(Color.LTGRAY)
-                note_actions_button.setBackgroundColor(Color.WHITE)
+                note_actions_button.setBackgroundColor(resources.getColor(R.color.colorBackground))
             }
             else{
-                note_types_button.setBackgroundColor(Color.WHITE)
+                note_types_button.setBackgroundColor(resources.getColor(R.color.colorBackground))
             }
         }
 
@@ -93,42 +95,35 @@ class AddNote : AppCompatActivity() {
             if(numberedPressed){
                 bulletPressed = false
                 note_actions_button.setBackgroundColor(Color.LTGRAY)
-                note_types_button.setBackgroundColor(Color.WHITE)
+                note_types_button.setBackgroundColor(resources.getColor(R.color.colorBackground))
             }
             else{
-                note_actions_button.setBackgroundColor(Color.WHITE)
+                note_actions_button.setBackgroundColor(resources.getColor(R.color.colorBackground))
             }
         }
-
-
     }
-
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.keyCode == KeyEvent.KEYCODE_DEL) {
             if (event.action == KeyEvent.ACTION_UP) {
-
-
-
                 return true
             }
         }
 
         deletePressed = true
         return super.dispatchKeyEvent(event)
-    };
+    }
 
 
     var noteTextWatcher: TextWatcher = object : TextWatcher {
 
-        var newText = null
 
         override fun afterTextChanged(s: Editable) {
             deletePressed = false
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            //edit_text_content.removeTextChangedListener(this)
+
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -142,11 +137,6 @@ class AddNote : AppCompatActivity() {
             if (deletePressed && start == 0) {
                 deletePressed = false
             }
-
-//                if(!numberedPressed){
-//                    numbersInList = 1
-//                }
-
 
 
             if (!deletePressed) {
@@ -179,31 +169,6 @@ class AddNote : AppCompatActivity() {
 
 
     }
-
-
-    fun setBulletText(myEdit: EditText, text: String) {
-        val lines = TextUtils.split(text, "\n")
-        val spannableStringBuilder = SpannableStringBuilder()
-        var line: String? = null
-        for (index in lines.indices) {
-            line = lines[index]
-            val length = spannableStringBuilder.length
-            spannableStringBuilder.append(line)
-            if (index != lines.size - 1) {
-                spannableStringBuilder.append("\n")
-            } else if (TextUtils.isEmpty(line)) {
-                spannableStringBuilder.append("\u200B")
-            }
-            spannableStringBuilder.setSpan(
-                BulletSpan(30), length, length + 1,
-                Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-            )
-        }
-        myEdit.setText(spannableStringBuilder)
-    }
-
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_add, menu)
         return true
@@ -221,17 +186,17 @@ class AddNote : AppCompatActivity() {
         if (id == 0) {
             val ID = dbManager.Insert(values)
             if (ID > 0) {
-                Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Note is Updated", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error: Couldn't Add", Toast.LENGTH_SHORT).show()
             }
         } else {
             var selectionArgs = arrayOf(id.toString())
             val Id = dbManager.update(values, "Id=?", selectionArgs)
             if (Id > 0) {
-                Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Note is Updated", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error: Couldn't Update", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -243,7 +208,7 @@ class AddNote : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+
 
         if (edit_text_title.text.toString() != "" && edit_text_content.text.toString() != "") {
 
@@ -256,26 +221,46 @@ class AddNote : AppCompatActivity() {
             if (id == 0) {
                 val ID = dbManager.Insert(values)
                 if (ID > 0) {
-                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Note is Added", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Couldn't be added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error: Couldn't Add", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 var selectionArgs = arrayOf(id.toString())
                 val Id = dbManager.update(values, "Id=?", selectionArgs)
                 if (Id > 0) {
-                    Toast.makeText(this, "Note is update", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Note is Update", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Couldn't be updated", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error: Couldn't Update", Toast.LENGTH_SHORT).show()
                 }
             }
 
-        } else{
-            Toast.makeText(this, "Didn't save note with empty Title and/or Content", Toast.LENGTH_LONG).show()
-        }
-        finish()
-    }
+            super.onBackPressed()
 
+        } else{
+
+            val builder = AlertDialog.Builder(this)
+
+            builder.setTitle("Warning")
+
+            builder.setMessage("Both title and content need to have values or this note will be deleted. " +
+                    "Are you sure you want to delete this note?")
+
+            builder.setPositiveButton("Yes"){dialog, which ->
+                super.onBackPressed()
+                Toast.makeText(this, "Didn't Save", Toast.LENGTH_LONG).show()
+                true
+            }
+
+            builder.setNegativeButton("No"){dialog,which ->
+                Toast.makeText(this,"No changes made", Toast.LENGTH_SHORT).show()
+            }
+
+            val dialog: AlertDialog = builder.create()
+
+            dialog.show()
+        }
+    }
 }
 
 

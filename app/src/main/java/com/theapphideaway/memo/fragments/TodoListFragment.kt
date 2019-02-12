@@ -64,7 +64,7 @@ class TodoListFragment: Fragment() {
             }
 
             builder.setNegativeButton("No"){dialog,which ->
-                Toast.makeText(context,"No changes made", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"No Changes Made", Toast.LENGTH_SHORT).show()
             }
 
             val dialog: AlertDialog = builder.create()
@@ -81,9 +81,9 @@ class TodoListFragment: Fragment() {
             if (index == 0) {
                 val ID = dbManager.ListInsert(values)
                 if (ID > 0) {
-                    Toast.makeText(rootView.context, "List is added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(rootView.context, "Added", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(rootView.context, "Error, Couldn't Add", Toast.LENGTH_SHORT).show()
                 }
 
                 edit_text_todo_list.text = null
@@ -92,9 +92,9 @@ class TodoListFragment: Fragment() {
                 var selectionArgs = arrayOf(id.toString())
                 val Id = dbManager.update(values, "Id=?", selectionArgs)
                 if (Id > 0) {
-                    Toast.makeText(rootView.context, "List is updated", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(rootView.context, "Updated", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(rootView.context, "Error: Couldn't Update", Toast.LENGTH_SHORT).show()
                 }
             }
 
