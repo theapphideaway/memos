@@ -74,10 +74,6 @@ class TodoListFragment: Fragment() {
         }
 
         rootView.fab_todo.setOnClickListener { view ->
-
-
-
-
             var values = ContentValues()
             values.put("ListTitle", edit_text_todo_list.text.toString())
             values.put("IsChecked", 0)
@@ -96,7 +92,7 @@ class TodoListFragment: Fragment() {
                 var selectionArgs = arrayOf(id.toString())
                 val Id = dbManager.update(values, "Id=?", selectionArgs)
                 if (Id > 0) {
-                    Toast.makeText(rootView.context, "List is added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(rootView.context, "List is updated", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(rootView.context, "Didnt Add List", Toast.LENGTH_SHORT).show()
                 }
@@ -108,11 +104,6 @@ class TodoListFragment: Fragment() {
             todoAdapter!!.notifyDataSetChanged()
 
         }
-
-
-
-
-
 
         rootView.list_recycler_view.adapter = todoAdapter
         rootView.list_recycler_view.layoutManager = layoutManager
@@ -143,6 +134,7 @@ class TodoListFragment: Fragment() {
                 val ID=cursor.getInt(cursor.getColumnIndex("Id"))
                 val Title=cursor.getString(cursor.getColumnIndex("ListTitle"))
                 val IsChecked = cursor.getInt(cursor.getColumnIndex("IsChecked"))
+
 
                 todoList!!.add(ToDo(ID,Title, IsChecked))
 

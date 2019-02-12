@@ -258,15 +258,15 @@ class AddNote : AppCompatActivity() {
                 if (ID > 0) {
                     Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Couldn't be added", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 var selectionArgs = arrayOf(id.toString())
                 val Id = dbManager.update(values, "Id=?", selectionArgs)
                 if (Id > 0) {
-                    Toast.makeText(this, "Note is added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Note is update", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "Couldn't added", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Couldn't be updated", Toast.LENGTH_SHORT).show()
                 }
             }
 

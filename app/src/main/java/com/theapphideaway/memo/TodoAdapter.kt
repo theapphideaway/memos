@@ -1,6 +1,7 @@
 package com.theapphideaway.memo
 
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
@@ -18,8 +19,11 @@ import com.theapphideaway.memo.Model.ToDo
 import kotlinx.android.synthetic.main.list_card.view.*
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+import android.widget.CheckBox
 import android.widget.RemoteViews
+import com.theapphideaway.memo.R.id.check_box_todo
 import com.theapphideaway.memo.R.id.list_card_text
+import kotlinx.android.synthetic.main.content_todo.*
 import java.lang.reflect.Array.setInt
 
 
@@ -43,9 +47,6 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindNote(todoList[position])
 
-        //TODO Save After is has been checked/unchecked
-
-
         holder.itemView.check_box_todo.setOnClickListener {
 
                 holder.itemView.list_card_text.apply {
@@ -56,16 +57,16 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
 
         }
 
-        holder.itemView.setOnClickListener {
-            holder.itemView.check_box_todo.isChecked = !holder.itemView.check_box_todo.isChecked
-
-            holder.itemView.list_card_text.apply {
-
-                if (paintFlags == 1281 || paintFlags ==0)paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                else paintFlags = 0
-            }
-
-        }
+//        holder.itemView.setOnClickListener {
+//            holder.itemView.check_box_todo.isChecked = !holder.itemView.check_box_todo.isChecked
+//
+//            holder.itemView.list_card_text.apply {
+//
+//                if (paintFlags == 1281 || paintFlags ==0)paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+//                else paintFlags = 0
+//            }
+//
+//        }
 
         holder.itemView.setOnLongClickListener {
             val builder = AlertDialog.Builder(context)
@@ -96,13 +97,41 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
             true
         }
 
+        holder.itemView.check_box_todo.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            var dbManager = TodoDbManager(context)
+
+            println(isChecked)
+            val isCheckedValue = if (isChecked) 1 else 0
+            println(isCheckedValue)
+
+            var values = ContentValues()
+            values.put("ListTitle", holder.itemView.list_card_text.text.toString())
+            values.put("IsChecked", isCheckedValue)
+
+
+            var id = position + 1
+            var selectionArgs = arrayOf(id.toString())
+            val Id = dbManager.update(values, "Id=?", selectionArgs)
+            if (Id > 0) {
+                Toast.makeText(context, "Check is added", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Didnt Add List", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bindNote( todo: ToDo){
             var titleText: TextView = itemView.findViewById(R.id.list_card_text) as TextView
+            var checkBox: CheckBox = itemView.findViewById(R.id.check_box_todo) as CheckBox
+
+            var checked = todo.IsChecked!! > 0
+            if (checked) titleText.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
             titleText.text = todo.ListTitle
+            checkBox.isChecked = checked
         }
 
     }
