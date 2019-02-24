@@ -42,8 +42,6 @@ class MainFragment: Fragment() {
             startActivityForResult(intent, 1)
         }
 
-
-
         noteList = ArrayList()
         layoutManager = LinearLayoutManager(rootView.context)
         noteAdapter = NoteAdapter(noteList!!, rootView.context)
@@ -52,7 +50,6 @@ class MainFragment: Fragment() {
         rootView.note_recycler_view.layoutManager = layoutManager
 
         loadQuery("%")
-
 
         noteAdapter!!.notifyDataSetChanged()
         return rootView

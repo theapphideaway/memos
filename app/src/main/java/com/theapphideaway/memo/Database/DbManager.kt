@@ -65,6 +65,10 @@ class DbManager{
         return sqliteDB!!.delete(dbTable, selection, selectionArgs)
     }
 
+    fun deleteAll(){
+        sqliteDB!!.delete(dbTable,null,null)
+    }
+
     fun update(values: ContentValues, selection:String, selectionArgs:Array<String>):Int{
         return sqliteDB!!.update(dbTable, values, selection, selectionArgs)
     }

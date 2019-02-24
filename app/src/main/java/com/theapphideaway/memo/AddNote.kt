@@ -50,7 +50,6 @@ class AddNote : AppCompatActivity() {
         // insert character at offset 8
         str.insert(8, 's')
 
-        //How do I get the current index???
 
         // print StringBuilder after insertion
         print("After insertion = ")

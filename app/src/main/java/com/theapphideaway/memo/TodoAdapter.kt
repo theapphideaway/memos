@@ -57,31 +57,30 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
 
         }
 
-//        holder.itemView.setOnClickListener {
-//            holder.itemView.check_box_todo.isChecked = !holder.itemView.check_box_todo.isChecked
-//
-//            holder.itemView.list_card_text.apply {
-//
-//                if (paintFlags == 1281 || paintFlags ==0)paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-//                else paintFlags = 0
-//            }
-//
-//        }
 
         holder.itemView.setOnLongClickListener {
             val builder = AlertDialog.Builder(context)
 
-            builder.setTitle("Delete Note")
+            builder.setTitle("Delete Item")
 
-            builder.setMessage("Are you sure you want to delete this note?")
+            builder.setMessage("Are you sure you want to delete this item?")
 
             builder.setPositiveButton("YES"){dialog, which ->
 
                 var dbManager = TodoDbManager(this.context!!)
-                val selectionArgs= arrayOf(todoList[position].Id.toString())
-                dbManager.delete("Id=?", selectionArgs )
-                todoList.removeAt(position)
-                notifyItemRemoved(position)
+
+                if(todoList.size == 1){
+                    dbManager.deleteAll()
+                    todoList.removeAll(todoList)
+                    notifyItemRemoved(position)
+                }
+                else{
+                    val selectionArgs= arrayOf(todoList[position].Id.toString())
+                    dbManager.delete("Id=?", selectionArgs )
+                    todoList.removeAt(position)
+                    notifyItemRemoved(position)
+                }
+
                 true
 
             }

@@ -42,28 +42,32 @@ class NoteAdapter(private val noteList: ArrayList<Note>, private val context: Co
 
         holder.itemView.setOnLongClickListener {
             val builder = AlertDialog.Builder(context)
-
             builder.setTitle("Delete Note")
-
             builder.setMessage("Are you sure you want to delete this note?")
-
             builder.setPositiveButton("YES"){dialog, which ->
 
                 var dbManager = DbManager(this.context!!)
-                val selectionArgs= arrayOf(noteList[position].Id.toString())
-                dbManager.delete("Id=?", selectionArgs )
-                noteList.removeAt(position)
-                notifyItemRemoved(position)
+
+                if(noteList.size == 1)
+                {
+                    dbManager.deleteAll()
+                    noteList.removeAll(noteList)
+                    notifyItemRemoved(position)
+                }
+                else{
+                    val selectionArgs= arrayOf(noteList[position].Id.toString())
+                    dbManager.delete("Id=?", selectionArgs )
+                    noteList.removeAt(position)
+                    notifyItemRemoved(position)
+                }
+
+
                 true
-
             }
-
             builder.setNegativeButton("No"){dialog,which ->
                 Toast.makeText(context,"No changes made",Toast.LENGTH_SHORT).show()
             }
-
             val dialog: AlertDialog = builder.create()
-
             dialog.show()
 
             true
@@ -79,6 +83,5 @@ class NoteAdapter(private val noteList: ArrayList<Note>, private val context: Co
             titleText.text = note.Title
             contentText.text = note.Content
         }
-
     }
 }
