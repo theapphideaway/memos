@@ -11,9 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.theapphideaway.memo.AddNote
 import com.theapphideaway.memo.Database.DbManager
 import com.theapphideaway.memo.Database.TodoDbManager
@@ -45,10 +42,10 @@ class TodoListFragment: Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_todo_list, container, false)
 
-        MobileAds.initialize(rootView.context, "ca-app-pub-2688427047309255~1198112356");
-        val mAdView = rootView.findViewById(R.id.ad_view) as AdView
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+//        MobileAds.initialize(rootView.context, "ca-app-pub-2688427047309255~1198112356");
+//        val mAdView = rootView.findViewById(R.id.ad_view) as AdView
+//        val adRequest = AdRequest.Builder().build()
+//        mAdView.loadAd(adRequest)
 
         var dbManager = TodoDbManager(rootView.context)
 
@@ -64,14 +61,14 @@ class TodoListFragment: Fragment() {
 
             builder.setMessage("Are you sure you want to delete your list?")
 
-            builder.setPositiveButton("YES"){dialog, which ->
+            builder.setPositiveButton("YES"){ _, _ ->
                 dbManager.deleteAll()
                 loadQuery("%")
                 todoAdapter!!.notifyDataSetChanged()
                 true
             }
 
-            builder.setNegativeButton("No"){dialog,which ->
+            builder.setNegativeButton("No"){ _, _ ->
                 Toast.makeText(context,"No Changes Made", Toast.LENGTH_SHORT).show()
             }
 

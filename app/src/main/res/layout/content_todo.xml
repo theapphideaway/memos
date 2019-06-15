@@ -8,27 +8,31 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <RelativeLayout android:layout_width="match_parent"
+    <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" android:id="@+id/relativeLayout">
         <EditText
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:inputType="textCapSentences"
                 android:hint="Todo"
                 android:ems="10"
-                android:id="@+id/edit_text_todo_list" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
+                android:id="@+id/edit_text_todo_list"
+                android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/delete_button"
+                app:layout_constraintHorizontal_bias="0.0"/>
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_menu_delete"
                 android:background="@null"
-                android:id="@+id/delete_button" android:layout_alignParentEnd="true" android:layout_marginEnd="19dp"
-                android:layout_marginTop="0dp" android:layout_alignParentTop="true" android:padding="10dp"/>
-    </RelativeLayout>
+                android:id="@+id/delete_button" android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true" android:padding="10dp"
+                android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,21 +40,13 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="60dp"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
-            app:layout_constraintBottom_toTopOf="@+id/ad_view" app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintBottom_toTopOf="parent" app:layout_constraintVertical_bias="0.0"
             android:layout_marginBottom="55dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_alignBottom="@+id/ad_view" android:layout_alignParentStart="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"/>
 
-    <com.google.android.gms.ads.AdView
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ad_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId=""
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_alignParentBottom="true"/>
+
 
 </RelativeLayout>

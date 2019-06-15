@@ -8,9 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.theapphideaway.memo.AddNote
 import com.theapphideaway.memo.Database.DbManager
 import com.theapphideaway.memo.Model.FileManager
@@ -32,10 +29,10 @@ class MainFragment: Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main, container, false)
 
-        MobileAds.initialize(rootView.context, "ca-app-pub-2688427047309255~1198112356");
-        val mAdView = rootView.findViewById(R.id.ad_view) as AdView
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+       // MobileAds.initialize(rootView.context, "ca-app-pub-2688427047309255~1198112356");
+//        val mAdView = rootView.findViewById(R.id.ad_view) as AdView
+//        val adRequest = AdRequest.Builder().build()
+//        mAdView.loadAd(adRequest)
 
         rootView.fab.setOnClickListener { view ->
             var intent = Intent(rootView.context, AddNote::class.java)
