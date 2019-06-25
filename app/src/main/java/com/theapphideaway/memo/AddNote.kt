@@ -41,22 +41,6 @@ class AddNote : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_note)
-
-        val b: String = "Tutorial"
-
-        val str = StringBuilder(b)
-        println("string = $str")
-
-        // insert character at offset 8
-        str.insert(8, 's')
-
-
-        // print StringBuilder after insertion
-        print("After insertion = ")
-        println(str.toString())
-
-
-
         val current = LocalDateTime.now()
 
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")

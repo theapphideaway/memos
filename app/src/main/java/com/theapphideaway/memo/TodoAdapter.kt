@@ -38,8 +38,6 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
         return ViewHolder(noteCard)
     }
 
-
-
     override fun getItemCount(): Int {
         return todoList.count()
     }
@@ -115,7 +113,7 @@ class TodoAdapter (private val todoList: ArrayList<ToDo>, private val context: C
             if (Id > 0) {
                 Toast.makeText(context, "Check is added", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, "Didnt Add List", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Couldnt add check", Toast.LENGTH_SHORT).show()
             }
         }
 

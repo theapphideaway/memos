@@ -19,6 +19,7 @@ import com.theapphideaway.memo.Model.ToDo
 import com.theapphideaway.memo.NoteAdapter
 import com.theapphideaway.memo.R
 import com.theapphideaway.memo.TodoAdapter
+import com.theapphideaway.memo.ViewModel.ToDoViewModel
 import kotlinx.android.synthetic.main.activity_add_note.*
 import kotlinx.android.synthetic.main.content_main.view.*
 import kotlinx.android.synthetic.main.content_todo.*
@@ -34,6 +35,7 @@ class TodoListFragment: Fragment() {
     private var todoAdapter: TodoAdapter? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var todoList: ArrayList<ToDo>? = null
+    private val viewModel = ToDoViewModel()
 
 
     override fun onCreateView(
@@ -42,7 +44,7 @@ class TodoListFragment: Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_todo_list, container, false)
 
-//        MobileAds.initialize(rootView.context, "ca-app-pub-2688427047309255~1198112356");
+//        MobileAds.initialize(rootView.context, "ca-app-pub-2688427047309255~119fake6");
 //        val mAdView = rootView.findViewById(R.id.ad_view) as AdView
 //        val adRequest = AdRequest.Builder().build()
 //        mAdView.loadAd(adRequest)
@@ -63,7 +65,7 @@ class TodoListFragment: Fragment() {
 
             builder.setPositiveButton("YES"){ _, _ ->
                 dbManager.deleteAll()
-                loadQuery("%")
+                viewModel.loadTodo("%", todoList!!, context!!)
                 todoAdapter!!.notifyDataSetChanged()
                 true
             }
@@ -102,19 +104,13 @@ class TodoListFragment: Fragment() {
                     Toast.makeText(rootView.context, "Error: Couldn't Update", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            loadQuery("%")
-
-
+            viewModel.loadTodo("%", todoList!!, context!!)
             todoAdapter!!.notifyDataSetChanged()
-
         }
 
         rootView.list_recycler_view.adapter = todoAdapter
         rootView.list_recycler_view.layoutManager = layoutManager
-
-        loadQuery("%")
-
+        viewModel.loadTodo("%", todoList!!, context!!)
         todoAdapter!!.notifyDataSetChanged()
 
         return rootView
@@ -122,28 +118,8 @@ class TodoListFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //loadQuery("%")
         todoAdapter!!.notifyDataSetChanged()
     }
 
-    fun loadQuery(title:String){
-        var dbManager= TodoDbManager(this.context!!)
-        val projections= arrayOf("Id","ListTitle", "IsChecked")
-        val selectionArgs= arrayOf(title)
-        val cursor=dbManager.query(projections,"ListTitle like ?",selectionArgs)
-        todoList!!.clear()
-        if(cursor.moveToFirst()){
 
-            do{
-                //try writing this with the no constructor in the notes class
-                val ID=cursor.getInt(cursor.getColumnIndex("Id"))
-                val Title=cursor.getString(cursor.getColumnIndex("ListTitle"))
-                val IsChecked = cursor.getInt(cursor.getColumnIndex("IsChecked"))
-
-
-                todoList!!.add(ToDo(ID,Title, IsChecked))
-
-            }while (cursor.moveToNext())
-        }
-    }
 }
